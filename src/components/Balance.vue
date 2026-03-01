@@ -1,6 +1,6 @@
 <template>
   <div class="balance">
-    <h2>Balance</h2>
+    <h2 class="text-2xl uppercase">Your Balance</h2>
     <h1 class="balance">{{ total }}</h1>
   </div>
 </template>
