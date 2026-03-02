@@ -27,6 +27,20 @@ import AddTransaction from "./components/AddTransaction.vue";
 import Balance from "./components/Balance.vue";
 import Expenses from "./components/Expenses.vue";
 import TransactionList from "./components/TransactionList.vue";
+
+import { ref, computed, onMounted } from "vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const handleTransactionDelete = (id: number) => {
+  // ...delete logic...
+  toast.success("Transaction deleted!");
+};
+
+const handleTransactionAdd = (transaction: Transaction) => {
+  // ...add logic...
+  toast.success("Transaction added!");
+};
 </script>
 
 <style scoped></style>

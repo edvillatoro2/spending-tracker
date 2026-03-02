@@ -1,7 +1,7 @@
 <template>
   <div class="balance">
-    <h2 class="text-2xl uppercase">Your Balance</h2>
-    <h1 class="balance">${{ total }}</h1>
+    <h2 class="text-xl font-light uppercase">Your Balance</h2>
+    <p class="text-lg font-bold">${{ total }}</p>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h3>History</h3>
+    <h3 class="text-xl font-semibold">History</h3>
     <ul>
       <li v-for="transaction in transactions" :key="transaction.id">
         {{ transaction.text }} - {{ transaction.amount }}
