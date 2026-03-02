@@ -15,7 +15,7 @@
             @delete-transaction="handleTransactionDelete"
           />
           test
-          <AddTransaction :total="1000" />
+          <AddTransaction @add-transaction="handleTransactionAdd" />
         </div>
       </main>
     </div>
@@ -30,15 +30,24 @@ import TransactionList from "./components/TransactionList.vue";
 
 import { ref, computed, onMounted } from "vue";
 import { useToast } from "vue-toastification";
+import type { Transaction } from "./assets/types";
 
 const toast = useToast();
+const transactions = ref<Transaction[]>([]);
+
 const handleTransactionDelete = (id: number) => {
-  // ...delete logic...
+  transactions.value = transactions.value.filter(
+    (transaction) => transaction.id !== id,
+  );
   toast.success("Transaction deleted!");
 };
 
 const handleTransactionAdd = (transaction: Transaction) => {
-  // ...add logic...
+  transactions.value.push({
+    id: transaction.id,
+    description: transaction.description,
+    amount: transaction.amount,
+  });
   toast.success("Transaction added!");
 };
 </script>
