@@ -1,19 +1,32 @@
+<template>
+  <div class="container mx-auto">
+    <div class="flex flex-col items-center justify-center min-h-screen">
+      <main>
+        <div class="flex items-center justify-center mb-8">
+          <h1 class="text-4xl uppercase font-semibold text-amber-700">
+            spending tracker
+          </h1>
+        </div>
+        <div class="flex flex-col gap-4">
+          <Balance :total="1000" />
+          <Expenses :income="1000" :expenses="500" />
+          <TransactionList
+            :transactions="transactions"
+            @delete-transaction="handleTransactionDelete"
+          />
+          test
+          <AddTransaction :total="1000" />
+        </div>
+      </main>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import AddTransaction from "./components/AddTransaction.vue";
 import Balance from "./components/Balance.vue";
+import Expenses from "./components/Expenses.vue";
+import TransactionList from "./components/TransactionList.vue";
 </script>
-
-<template>
-  <header>
-    <div class="wrapper">spending tracker</div>
-  </header>
-
-  <main>
-    <div>
-      <Balance :total="1000" />
-      <AddTransaction :total="1000" />
-    </div>
-  </main>
-</template>
 
 <style scoped></style>

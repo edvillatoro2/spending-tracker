@@ -1,7 +1,7 @@
 <template>
   <div class="balance">
     <h2 class="text-2xl uppercase">Your Balance</h2>
-    <h1 class="balance">{{ total }}</h1>
+    <h1 class="balance">${{ total }}</h1>
   </div>
 </template>
 
@@ -9,9 +9,9 @@
 const props = defineProps({
   total: {
     type: Number,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <style scoped>
