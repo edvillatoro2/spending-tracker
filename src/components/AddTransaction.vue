@@ -7,6 +7,7 @@
         <input
           type="text"
           id="text"
+          ref="text"
           class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 hover:border-gray-400"
           placeholder="enter title..."
         />
@@ -15,6 +16,7 @@
         <label for="amount">amount</label>
         <input
           type="number"
+          ref="amount"
           id="amount"
           class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 hover:border-gray-400"
           placeholder="enter amount..."
@@ -33,11 +35,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
+import type { Transaction } from "../assets/types";
+
 const toast = useToast();
 const text = ref("");
 const amount = ref(0);
 const emit = defineEmits(["add-transaction"]);
-import type { Transaction } from "../assets/types";
 
 const handleSubmit = () => {
   if (!text.value || !amount.value) {

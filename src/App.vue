@@ -48,7 +48,13 @@ const handleTransactionAdd = (transaction: Transaction) => {
     description: transaction.description,
     amount: transaction.amount,
   });
+  saveTransactionToLocalStorage();
   toast.success("Transaction added!");
+};
+
+// save transactions to local storage
+const saveTransactionToLocalStorage = () => {
+  localStorage.setItem("transactions", JSON.stringify(transactions.value));
 };
 </script>
 
