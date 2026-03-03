@@ -39,7 +39,8 @@ const handleTransactionDelete = (id: number) => {
   transactions.value = transactions.value.filter(
     (transaction) => transaction.id !== id,
   );
-  toast.success("Transaction deleted!");
+  saveTransactionToLocalStorage();
+  toast.error("Transaction deleted!");
 };
 
 const handleTransactionAdd = (transaction: Transaction) => {
