@@ -8,13 +8,12 @@
           </h1>
         </div>
         <div class="flex flex-col gap-4">
-          <Balance :total="1000" />
-          <Expenses :income="1000" :expenses="500" />
+          <Balance :total="total" />
+          <Expenses :income="+income" :expenses="+expenses" />
           <TransactionList
             :transactions="transactions"
             @delete-transaction="handleTransactionDelete"
           />
-          test
           <AddTransaction @add-transaction="handleTransactionAdd" />
         </div>
       </main>
@@ -34,6 +33,37 @@ import type { Transaction } from "./assets/types";
 
 const toast = useToast();
 const transactions = ref<Transaction[]>([]);
+
+onMounted(() => {
+  const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
+
+  if (savedTransactions) {
+    transactions.value = savedTransactions;
+  }
+});
+
+//total
+const total = computed(() => {
+  return transactions.value.reduce((acc, transaction) => {
+    return acc + transaction.amount;
+  }, 0);
+});
+
+//income
+const income = computed(() => {
+  return transactions.value
+    .filter((transaction) => transaction.amount > 0)
+    .reduce((acc, transaction) => acc + transaction.amount, 0)
+    .toFixed(2);
+});
+
+//expenses
+const expenses = computed(() => {
+  return transactions.value
+    .filter((transaction) => transaction.amount < 0)
+    .reduce((acc, transaction) => acc + transaction.amount, 0)
+    .toFixed(2);
+});
 
 const handleTransactionDelete = (id: number) => {
   transactions.value = transactions.value.filter(
