@@ -1,17 +1,20 @@
 <template>
-  <div class="">
+  <div class="flex flex-col gap-4">
     <h3 class="text-xl font-semibold">History</h3>
-    <ul>
-      <li v-for="transaction in transactions" :key="transaction.id">
-        {{ transaction.description }} - {{ transaction.amount }}
-        <button
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded cursor-pointer ml-2"
-          @click="deleteTransaction(transaction.id)"
-        >
-          Delete
-        </button>
-      </li>
-    </ul>
+    <div v-for="transaction in transactions" :key="transaction.id">
+      <div class="flex justify-between">
+        {{ transaction.description }}
+      </div>
+      <div>
+        {{ transaction.amount }}
+      </div>
+    </div>
+    <button
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded cursor-pointer"
+      @click="deleteTransaction(transaction.id)"
+    >
+      Delete
+    </button>
   </div>
 </template>
 
