@@ -15,8 +15,9 @@
       <div class="flex flex-col gap-2 mb-4">
         <label for="amount">amount</label>
         <input
-          type="number"
+          type="text"
           v-model="amount"
+          @input="handleAmountInput"
           minlength="0"
           maxlength="12"
           id="amount"
@@ -41,8 +42,21 @@ import type { Transaction } from "../assets/types";
 
 const toast = useToast();
 const text = ref("");
-const amount = ref();
+const amount = ref<string>("");
 const emit = defineEmits(["add-transaction"]);
+
+const formatCurrency = (value: string) => {
+  const number = value.replace(/[^0-9.]/g, "");
+  if (!number) return "";
+  const numberCleaned = Number(number);
+  if (isNaN(numberCleaned)) return "";
+  return "$" + numberCleaned.toLocaleString("en-US");
+};
+
+const handleAmountInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  amount.value = formatCurrency(target.value);
+};
 
 const handleSubmit = () => {
   if (!text.value || !amount.value) {
@@ -58,7 +72,7 @@ const handleSubmit = () => {
   emit("add-transaction", newTransaction);
   // reset form fields
   text.value = "";
-  amount.value = 0;
+  amount.value = "";
 };
 </script>
 
