@@ -1,79 +1,84 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h2 class="text-2xl uppercase">add new transaction</h2>
-    <form action="" @submit.prevent="handleSubmit">
-      <div class="flex flex-col gap-2 mb-4">
-        <label for="text">title</label>
+  <div>
+    <h3 class="text-lg font-bold mb-2">Add new transaction</h3>
+
+    <form @submit.prevent="submitTransaction" class="space-y-3">
+      <div>
+        <label class="block text-sm font-medium mb-1">Text</label>
         <input
-          type="text"
-          id="text"
           v-model="text"
-          class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 hover:border-gray-400"
-          placeholder="enter title..."
+          type="text"
+          class="w-full px-3 py-2 border rounded"
+          placeholder="Enter description..."
         />
       </div>
-      <div class="flex flex-col gap-2 mb-4">
-        <label for="amount">amount</label>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          Amount (negative = expense)
+        </label>
         <input
-          type="text"
           v-model="amount"
           @input="handleAmountInput"
-          minlength="0"
-          maxlength="12"
-          id="amount"
-          class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 hover:border-gray-400"
-          placeholder="enter amount..."
+          type="text"
+          class="w-full px-3 py-2 border rounded"
+          placeholder="0"
         />
       </div>
+
+      <button
+        class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+        :disabled="isDisabled"
+        :class="{
+          'opacity-50 cursor-not-allowed': isDisabled,
+        }"
+      >
+        Add transaction
+      </button>
     </form>
-    <button
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
-      type="submit"
-    >
-      add transaction
-    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useToast } from "vue-toastification";
-import type { Transaction } from "../assets/types";
 
+const emit = defineEmits(["add-transaction"]);
 const toast = useToast();
 const text = ref("");
-const amount = ref<string>("");
-const emit = defineEmits(["add-transaction"]);
+const amount = ref("");
+
+const isDisabled = computed(() => !text.value || !amount.value);
 
 const formatCurrency = (value: string) => {
-  const number = value.replace(/[^0-9.]/g, "");
-  if (!number) return "";
-  const numberCleaned = Number(number);
-  if (isNaN(numberCleaned)) return "";
-  return "$" + numberCleaned.toLocaleString("en-US");
+  const cleaned = value.replace(/[^0-9.-]/g, "");
+  // allow user to type just "-"
+  if (cleaned === "-") return "-";
+  const number = Number(cleaned);
+
+  if (isNaN(number)) return "";
+  return number.toLocaleString("en-US");
 };
 
-const handleAmountInput = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  amount.value = formatCurrency(target.value);
+const handleAmountInput = () => {
+  amount.value = formatCurrency(amount.value);
 };
 
-const handleSubmit = () => {
+const submitTransaction = () => {
   if (!text.value || !amount.value) {
-    // display toast error if either field is empty
-    toast.error("please fill in all fields");
+    // Display a toast error message if either field is empty
+    toast.error("Both fields must be filled.");
     return;
   }
-  const newTransaction: Transaction = {
+
+  const cleanedAmount = Number(amount.value.replace(/,/g, ""));
+  emit("add-transaction", {
     id: Date.now(),
     description: text.value,
-    amount: amount.value,
-  };
-  emit("add-transaction", newTransaction);
-  // reset form fields
+    amount: cleanedAmount,
+  });
+
   text.value = "";
   amount.value = "";
 };
 </script>
-
-<style scoped></style>

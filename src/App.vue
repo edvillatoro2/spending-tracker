@@ -53,16 +53,14 @@ const total = computed(() => {
 const income = computed(() => {
   return transactions.value
     .filter((transaction) => transaction.amount > 0)
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
-    .toFixed(2);
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
 });
 
 //expenses
 const expenses = computed(() => {
   return transactions.value
     .filter((transaction) => transaction.amount < 0)
-    .reduce((acc, transaction) => acc + transaction.amount, 0)
-    .toFixed(2);
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
 });
 
 const handleTransactionDelete = (id: number) => {

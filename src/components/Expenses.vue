@@ -4,11 +4,11 @@
       class="flex-1 h-full flex flex-col justify-center items-center border-r border-slate-200"
     >
       <h3 class="text-lg font-bold">Income</h3>
-      <p>${{ income }}</p>
+      <p>{{ currencyFormatted.format(income) }}</p>
     </div>
     <div class="flex-1 h-full flex flex-col justify-center items-center">
       <h3 class="text-lg font-bold">Expenses</h3>
-      <p>${{ expenses }}</p>
+      <p>{{ currencyFormatted.format(expenses) }}</p>
     </div>
   </div>
 </template>
@@ -23,6 +23,11 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+});
+
+const currencyFormatted = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
 });
 </script>
 
